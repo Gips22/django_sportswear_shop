@@ -27,8 +27,13 @@
     <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
     {% endfor %}
 </div>
-    <li class="last"><a href="{% url 'shop:register' %}">Регистрация</a> | <a href="/login">Войти</a></li>
-    <div class="cart">Корзина</div>
+
+{% if request.user.is_authenticated %}
+<li class="last"> {{user.username}} | <a href="{% url 'shop:logout' %}">Выйти</a></li>
+{% else %}
+<li class="last"><a href="{% url 'shop:register' %}">Регистрация</a> | <a href="/login">Войти</a></li>
+{% endif  %}
+<div class="cart">Корзина</div>
 
 </div>
 {% endblock mainmenu %}
