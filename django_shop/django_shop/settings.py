@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/' # будет создана папка /media, в которой у нас будут храниться все файлы загруженные пользователем
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # путь в файловой системе по которому хранятся файлы. По умолчанию путь формируется из настроек BASE_DIR и MEDIA_ROOT
 
-
+CART_ID = 'cart'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'captcha',
     'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
 
 ]
 

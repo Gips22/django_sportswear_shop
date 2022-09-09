@@ -14,7 +14,6 @@
 </head>
 
 <body>
-{% block mainmenu %}
     <div>
         <div class="header-blue">
             <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
@@ -22,6 +21,7 @@
                     <div class="collapse navbar-collapse"
                         id="navcol-1">
                         <ul class="nav navbar-nav">
+                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:feedback' %}">Обратная связь</a></li>
 
                             <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Категории </a>
                             <div class="dropdown-menu" role="menu">
@@ -30,10 +30,6 @@
                                 {% endfor %}
                             </div>
                             </li>
-
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:feedback' %}">Обратная связь</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:about' %}">О нас</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:contact' %}">Контакты</a></li>
 
                         </ul>
                         <form class="form-inline mr-auto" target="_self">
@@ -57,6 +53,35 @@
                 </div>
             </div>
 
+
+<div id="header">
+<a href="/" class="logo">Войти</a>
+<div class="header-info-links">
+<a href="/about">О нас</a>
+<a href="/contact">Контакты</a>
+<a href="/pomoshh?article=oplata">Оплата</a>
+<a href="{% url 'shop:feedback' %}"><p align="right">Обратная связь</p></a>
+</div></div>
+
+{% block mainmenu %}
+<div id="subheader">
+<a href="/" class="site_header__logo logo">
+    <div class="logo_img--desktop">
+        <picture><source srcset="{% static 'shop/img/nike-logo-1978.png' %}" type="image/webp"><img src="{% static 'shop/img/nike-logo-1978.png' %}" class="logo_img" alt="logo" width="100" height="50"></picture>
+</a>
+    {% for c in categories %}
+    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+    {% endfor %}
+</div>
+
+{% if request.user.is_authenticated %}
+<li class="last"> {{user.username}} | <a href="{% url 'shop:logout' %}">Выйти</a></li>
+{% else %}
+<li class="last"><a href="{% url 'shop:register' %}">Регистрация</a> | <a href="/login">Войти</a></li>
+{% endif  %}
+<div class="cart"><a href="{% url 'cart:cart_detail' %}">Корзина</a></div>
+
+</div>
 {% endblock mainmenu %}
 
 <div id="content">

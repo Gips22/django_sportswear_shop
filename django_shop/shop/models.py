@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
@@ -36,4 +37,13 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', args = [self.category.slug, self.slug])
 
+class Review(models.Model):
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
+    author = models.CharField(max_length=50)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    text = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
 

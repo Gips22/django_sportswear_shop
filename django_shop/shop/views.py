@@ -3,9 +3,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
-from .forms import RegisterUserForm, LoginUserForm
+from django.views.generic import ListView, CreateView, FormView
+from .forms import RegisterUserForm, LoginUserForm, FeedbackForm, ReviewForm
 from .models import *
+from cart.forms import CartAddProductForm
 
 categories = Category.objects.all()
 
@@ -41,6 +42,29 @@ def product_detail(request, category_slug, slug):
     category = get_object_or_404(Category, slug=category_slug)
     product = get_object_or_404(Product, slug=slug)
     return render(request, 'shop/product/detail.html', {'product': product, 'category': category})
+
+# def product_detail(request, category_slug, slug):
+#     category = get_object_or_404(Category, slug=category_slug)
+#     product = get_object_or_404(Product, category_id=category.id, slug=slug)
+#     if request.method == 'POST':
+#         review_form = ReviewForm(request.POST)
+#
+#         if review_form.is_valid():
+#             cf = review_form.cleaned_data
+#
+#             author_name = "Anonymous"
+#             Review.objects.create(
+#                 product=product,
+#                 author=author_name,
+#                 rating=cf['rating'],
+#                 text=cf['text']
+#             )
+#         return redirect('shop:product_detail', category_slug=category_slug, slug=slug)
+#     else:
+#         review_form = ReviewForm()
+#         cart_product_form = CartAddProductForm()
+#         return render(request, 'product/detail.html', {'product': product, 'review_form': review_form, 'cart_product_form': cart_product_form})
+#
 
 
 class ShopCategory(ListView):
@@ -98,7 +122,7 @@ class LoginUser(LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Авторизация'
+        context['title'] = 'Форма обратной связи'
         return context
 
     def get_success_url(self):
@@ -110,3 +134,17 @@ class LoginUser(LoginView):
 def logout_user(request):
     logout(request) # стандартная ф-ия Джанго для выхода из авторизации
     return redirect('shop:login')
+
+class FeedbackFormView(FormView):
+    form_class = FeedbackForm
+    template_name = 'shop/product/feedback.html'
+    success_url = reverse_lazy('shop:product_list')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Форма обратной связи'
+        return context
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return redirect('shop:product_list')
