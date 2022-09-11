@@ -10,7 +10,7 @@
 <h2>
 <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a>
 </h2>
-<p class="price">${{ product.price }}</p>
+<p class="price">₽ {{ product.price }}</p>
 {{ product.description|linebreaks }}
 </div>
 {% endblock %}

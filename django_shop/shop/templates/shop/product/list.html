@@ -6,15 +6,18 @@
 {% block content %}
 
 <div id="main" class="product-list">
-<h1>{% if category %}{{ category.name }}{% else %}Товар{% endif %}</h1>
+    <br>
+<h3 class="sec-popular-goods_title title-h3">{% if category %}{{ category.name }}{% else %}НОВИНКИ
+    <h5><p style="color:grey">Создай лучшую версию себя!</p></h5>
+{% endif %}</h3>
 {% for product in products %}
-<div class="item">
+<div class="item photo img">
 <a href="{{ product.get_absolute_url }}">
     <img src="{% if product.image %}{{ product.image.url }}{%else %}{% static 'shop/img/no_image.png' %}{% endif %}">
 </a>
 <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
 <br>
-${{ product.price }}
+₽ {{ product.price }}
 </div>
 {% endfor %}
 </div>

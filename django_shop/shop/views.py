@@ -88,10 +88,6 @@ def about(request):
     return render(request, 'shop/product/about.html')
 
 
-def contact(request):
-    return render(request, 'shop/product/contact.html')
-
-
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'shop/product/register.html'

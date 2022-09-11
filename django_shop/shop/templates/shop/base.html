@@ -16,14 +16,14 @@
 <body>
 {% block mainmenu %}
     <div>
-        <div class="header-blue">
+        <div class="header-white">
             <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-                <div class="container"><a class="navbar-brand" href="{% url 'shop:product_list' %}"> Sport shop</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="container"><a class="navbar-brand text-dark" href="{% url 'shop:product_list' %}"><span style="color:#0d6efd"><b>Sport shop</a></b></span><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse"
                         id="navcol-1">
                         <ul class="nav navbar-nav">
 
-                            <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Категории </a>
+                            <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-expanded="false" href="#">Категории </a>
                             <div class="dropdown-menu" role="menu">
                                 {% for c in categories %}
                                 <a class="dropdown-item" role="presentation" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
@@ -31,38 +31,39 @@
                             </div>
                             </li>
 
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:feedback' %}">Обратная связь</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:about' %}">О нас</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'shop:contact' %}">Контакты</a></li>
-
+                            <li class="nav-item" role="presentation"><a class="nav-link active text-dark" href="{% url 'shop:feedback' %}">Обратная связь</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link active text-dark" href="{% url 'shop:about' %}">О нас</a></li>
                         </ul>
                         <form class="form-inline mr-auto" target="_self">
-                            <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" name="search" id="search-field"></div>
-                        </form><span class="navbar-text"> <a href="{% url 'shop:login' %}" class="login">Войти</a></span><a class="btn btn-light action-button" role="button" href="{% url 'shop:register' %}">Зарегистрироваться</a></div>
+                        </form>
+                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:login' %}">Войти</a>
+                        <a class="btn btn-light action-button" role="button" href="{% url 'shop:register' %}">Зарегистрироваться</a>
+                    </div>
 
-                        <a class="ott btn btn-primary" href="{% url 'cart:cart_detail' %}" role="button">Корзина</a>
+                        <a class="ott btn btn-primary" href="{% url 'cart:cart_detail' %}" role="button"><span >Корзина</span></a>
                 </div>
 
             </nav>
-            <div class="container hero">
-                <div class="row">
-                    <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
-                        <h1>The revolution is here.</h1>
-                        <p>Mauris egestas tellus non ex condimentum, ac ullamcorper sapien dictum. Nam consequat neque quis sapien viverra convallis. In non tempus lorem. </p><button class="btn btn-light btn-lg action-button" type="button">Learn More</button></div>
-                    <div
-                        class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
-                        <div class="iphone-mockup"><img src="{% static 'shop/img/iphone.svg' %}" class="device">
-                            <div class="screen"></div>
-                        </div>
-                </div>
-            </div>
+
 
 {% endblock mainmenu %}
+            <!-- Заголовок с брендом-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-2"><span style="color:#0d6efd"><b> SPORT </b></span> SHOP</h1>
+                    <p class="lead text-white-50 mb-0">Удобный и стильный образ для спорта на каждый день.</p>
+                </div>
+            </div>
+        </header>
 
 <div id="content">
 {% block content %}{% endblock %}
 </div>
-
+<!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Sport Shop 2022</p></div>
+        </footer>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
