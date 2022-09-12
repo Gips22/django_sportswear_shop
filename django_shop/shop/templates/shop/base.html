@@ -36,8 +36,14 @@
                         </ul>
                         <form class="form-inline mr-auto" target="_self">
                         </form>
+                        {% if request.user.is_authenticated %}
+                        <span style="color:#4169E1;">{{ user.username }} &nbsp</span>
+                        <a class="btn btn-light action-button" role="button" href="{% url 'shop:logout' %}">Выйти</a>
+
+                        {% else %}
                          <a class="btn btn-light action-button" role="button" href="{% url 'shop:login' %}">Войти</a>
                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:register' %}">Зарегистрироваться</a>
+                        {% endif %}
                     </div>
 
                         <a class="ott btn btn-primary" href="{% url 'cart:cart_detail' %}" role="button"><span >Корзина</span></a>
@@ -58,7 +64,7 @@
         </header>
 
 <div id="content">
-{% block content %}{% endblock %}
+{% block content %} {% endblock %}
 </div>
 <!-- Footer-->
         <footer class="py-5 bg-dark">

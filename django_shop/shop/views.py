@@ -91,7 +91,6 @@ def about(request):
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'shop/product/register.html'
-    success_url = reverse_lazy('shop:login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -108,6 +107,10 @@ class RegisterUser(CreateView):
         return redirect('shop:product_list')
 
 
+
+
+
+
 # def register(request):
 #     return render(request, 'shop/product/about.html')
 
@@ -118,7 +121,7 @@ class LoginUser(LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Форма обратной связи'
+        context['title'] = 'Войти'
         return context
 
     def get_success_url(self):
