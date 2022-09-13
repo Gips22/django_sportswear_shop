@@ -7,6 +7,8 @@ from django.views.generic import ListView, CreateView, FormView
 from .forms import RegisterUserForm, LoginUserForm, FeedbackForm, ReviewForm
 from .models import *
 from cart.forms import CartAddProductForm
+from cart.views import cart_detail
+from decimal import Decimal
 
 categories = Category.objects.all()
 
@@ -16,12 +18,16 @@ class ShopHome(ListView):
     template_name = 'shop/product/list.html'
     context_object_name = 'products'
 
+    # cart_total_price = sum(Decimal(item['price']) * item['quantity'] for item in temp_cart.values())
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
         context[
             'categories'] = categories  # тут не оч понял почему нельяза переменную сategories со списком категорий из модели объявить прямо в классе, а нужно объявлять вне класса (сверху)
         return context
+
+
 
 
 # def product_list(request, category_slug=None):
@@ -41,7 +47,11 @@ class ShopHome(ListView):
 def product_detail(request, category_slug, slug):
     category = get_object_or_404(Category, slug=category_slug)
     product = get_object_or_404(Product, slug=slug)
-    return render(request, 'shop/product/detail.html', {'product': product, 'category': category})
+    cart_product_form = CartAddProductForm()
+    return render(request, 'shop/product/detail.html', {'product': product, 'category': category, 'cart_product_form': cart_product_form})
+
+
+
 
 # def product_detail(request, category_slug, slug):
 #     category = get_object_or_404(Category, slug=category_slug)

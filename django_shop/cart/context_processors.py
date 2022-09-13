@@ -8,3 +8,4 @@ def cart(request):
     return {
         'cart_total_price': cart_total_price
     }
+
