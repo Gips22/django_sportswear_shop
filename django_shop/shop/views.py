@@ -14,11 +14,10 @@ categories = Category.objects.all()
 
 
 class ShopHome(ListView):
+    paginate_by = 6
     model = Product
     template_name = 'shop/product/list.html'
     context_object_name = 'products'
-
-    # cart_total_price = sum(Decimal(item['price']) * item['quantity'] for item in temp_cart.values())
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,8 +25,6 @@ class ShopHome(ListView):
         context[
             'categories'] = categories  # тут не оч понял почему нельяза переменную сategories со списком категорий из модели объявить прямо в классе, а нужно объявлять вне класса (сверху)
         return context
-
-
 
 
 # def product_list(request, category_slug=None):
@@ -48,9 +45,8 @@ def product_detail(request, category_slug, slug):
     category = get_object_or_404(Category, slug=category_slug)
     product = get_object_or_404(Product, slug=slug)
     cart_product_form = CartAddProductForm()
-    return render(request, 'shop/product/detail.html', {'product': product, 'category': category, 'cart_product_form': cart_product_form})
-
-
+    return render(request, 'shop/product/detail.html',
+                  {'product': product, 'category': category, 'cart_product_form': cart_product_form})
 
 
 # def product_detail(request, category_slug, slug):
@@ -112,13 +108,9 @@ class RegisterUser(CreateView):
     def form_valid(self, form):
         """Встроенный метод который вызывается при успешной регистрации.
         Нужен чтобы зарегистрированного пользователя автоматически авторизовывали"""
-        user = form.save() # самостоятельно сохраняем пользователя в БД.
-        login(self.request, user) # функция для авторизации пользователя
+        user = form.save()  # самостоятельно сохраняем пользователя в БД.
+        login(self.request, user)  # функция для авторизации пользователя
         return redirect('shop:product_list')
-
-
-
-
 
 
 # def register(request):
@@ -126,7 +118,7 @@ class RegisterUser(CreateView):
 
 
 class LoginUser(LoginView):
-    form_class = LoginUserForm # тут мы указываем свою кастомную форму. Изначально пользовались встроенной - класс AutenticationForm
+    form_class = LoginUserForm  # тут мы указываем свою кастомную форму. Изначально пользовались встроенной - класс AutenticationForm
     template_name = 'shop/product/login.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -137,12 +129,14 @@ class LoginUser(LoginView):
     def get_success_url(self):
         return reverse_lazy('shop:product_list')
 
+
 # def login(request):
 #     return render(request, 'shop/product/login.html')
 
 def logout_user(request):
-    logout(request) # стандартная ф-ия Джанго для выхода из авторизации
+    logout(request)  # стандартная ф-ия Джанго для выхода из авторизации
     return redirect('shop:login')
+
 
 class FeedbackFormView(FormView):
     form_class = FeedbackForm

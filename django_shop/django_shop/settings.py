@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'captcha',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
+    'orders.apps.OrderConfig',
     'crispy_forms',
 
 ]

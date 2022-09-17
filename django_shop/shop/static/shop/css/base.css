@@ -184,10 +184,21 @@ ul.errorlist {
 
 #main {
     float:left;
-    width: 96%;
-    margin-right:-220px;
+    width: 50%;
+    margin-right:-500px;
     overflow:hidden;
 }
+.wrapper {
+    display: flex;
+    background-color: red;
+    flex-wrap: wrap;
+}
+.item {
+    width: 400px;
+    background-color: green;
+    height: 100px;
+}
+
 
 .product-list .item {
     width:25%;
@@ -334,14 +345,3 @@ form div.field {
     border-radius:4px;
 }
 
-.photo {
-  width: 400px;
-  height: 350px;
-  overflow: hidden;
-}
-img {
-  transition: transform 0.25s;
-}
-.photo:hover img {
-  transform: scale(1.1);
-}

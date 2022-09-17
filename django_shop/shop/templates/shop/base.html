@@ -24,7 +24,8 @@
 {% block mainmenu %}
     <div>
         <div class="header-white">
-            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search fixed-top bg-light">
+
                 <div class="container"><a class="navbar-brand text-dark" href="{% url 'shop:product_list' %}"><span style="color:#0d6efd"><b>Sport shop</a></b></span><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse"
                         id="navcol-1">
@@ -48,7 +49,7 @@
                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:logout' %}">Выйти</a>
 
                         {% else %}
-                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:login' %}">Войти</a>
+                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:login' %}">Войти</a>&nbsp
                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:register' %}">Зарегистрироваться</a>
                         {% endif %}
                     </div>
@@ -87,6 +88,41 @@
 
 <div id="content">
 {% block content %} {% endblock %}
+
+
+</div>
+<!-- Пагинация -->
+<br>
+{% if page_obj.has_other_pages %}
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+{% if page_obj.has_previous %}
+<li class="page-item">
+	<a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+</li>
+{% endif %}
+    {% for p in paginator.page_range %}
+    {% if page_obj.number == p %}
+    <li class="page-item active" aria-current="{{ p }}">
+     <span class="page-link">{{ p }}</span>
+    </li>
+    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+{% if page_obj.has_next %}
+<li class="page-item">
+	<a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+</li>
+{% endif %}
+    </ul>
+</nav>
+{% endif %}
+<!-- Конец пагинации -->
+
+
 </div>
 <!-- Footer-->
         <footer class="py-5 bg-dark">
@@ -95,6 +131,6 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</script>
+
 </body>
 </html>

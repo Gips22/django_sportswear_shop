@@ -1,30 +1,30 @@
-{% extends 'cart/base.html' %}
+{% extends 'shop/base.html' %}
 
-{% block title %}Shopping cart{% endblock %}
+{% block title %}Корзина{% endblock %}
 
 {% block content %}
 <div class="card shadow-custom border-0 col-lg-10 mx-auto mb-3">
   <h3 class="py-2 font-weight-bold text-grey text-center">
-    Your order:
+    Ваш заказ:
   </h3>
   <div class="row justify-content-center py-2 text-center header-desc">
     <div class="col-lg-2 align-self-center">
-      Product
+      Продукт
     </div>
     <div class="col-lg-2 align-self-center">
-      Description
+      Описание
     </div>
     <div class="col-lg-2 align-self-center">
-      Availability
+      Доступность
     </div>
     <div class="col-lg-1 align-self-center">
-      Price
+      Цена
     </div>
     <div class="col-lg-2 align-self-center">
-      Quantity
+      Количество
     </div>
     <div class="col-lg-3 align-self-center">
-      Total price
+      Итоговая цена
     </div>
   </div>
   <hr class="mt-0">
@@ -39,21 +39,21 @@
         </div>
       <div class="cart-item product-name col-12
         col-lg-2 align-self-center text-center">
-        {{ product.name }}
+        {{ product.description }}
       </div>
       <div class="cart-item col-12 col-lg-2 align-self-center">
       {% if product.available %}
           <div class="text-green mb-0 text-center">
-          Available
+          Доступен
         </div>
       {% else %}
         <div class="text-danger mb-0 text-center">
-          Currently unavailable
+          Временно недоступен
         </div>
       {% endif %}
       </div>
           <div class="cart-item col-12 col-sm-3 col-lg-1 align-self-center text-center">
-              <span>${{ product.price }}</span>
+              <span>₽{{ product.price }}</span>
           </div>
           <div class="cart-item col-6 col-sm-5 col-lg-2 align-self-center">
               <form action="{% url 'cart:cart_add' product.id %}" method="post">
@@ -64,13 +64,13 @@
                  <div class="input-group-append">
                    <button type="submit" class="btn text-white" data-toggle="tooltip" data-placement="top" title="Update">
                    <i class="fas fa-edit"></i>
-            </button>
+                   </button>
         </div>
     </span>
               </form>
           </div>
           <div class="cart-item col-12 col-sm-3 col-lg-2 align-self-center text-right">
-              <span>${{ item.total_price }}</span>
+              <span>₽{{ item.total_price }}</span>
           </div>
           <div class="cart-item col-12 col-lg-1 text-right align-self-center">
               <form action="{% url 'cart:cart_remove' product.id %}" method="post">
@@ -86,7 +86,7 @@
   {% empty %}
 <div class="align-self-center">
     <span class="text-center font-weight-bold text-muted lead">
-        Your shopping cart is empty.
+        Ваша корзина пуста.
     </span>
 </div>
  {% endfor %}
@@ -94,7 +94,7 @@
 <div class="total-price-cart">
  <h4 class="row justify-content-center">
   <div class="col-5 col-lg-9 text-right text-grey">
-    Total price:
+    Итоговая цена:
   </div>
   <div class="col-5 col-lg-2 text-right text-danger">
     ₽{{ cart_total_price|floatformat:2 }}
@@ -111,10 +111,10 @@
   <div class="col-lg-6 px-0">
    <div class="btn-group d-flex">
     <a href="{% url 'shop:product_list' %}" class="btn btn-warning shadow-custom col">
-        Back to shop
+        Вернуться назад
     </a>
-    <a href="{% url 'shop:product_list' %}" class="btn btn-danger shadow-custom col">
-    Checkout
+    <a href="{% url 'orders:order_create' %}" class="btn btn-danger shadow-custom col">
+    Оформить заказ
     </a>
     </div>
    </div>
@@ -122,7 +122,7 @@
      <div class="col-lg-3 px-0">
          <div class="btn-group d-flex">
              <a href="{% url 'shop:product_list' %}" class="btn btn-warning shadow-custom col">
-                 Back to Shop
+                 Вернуться назад
              </a>
          </div>
      </div>
