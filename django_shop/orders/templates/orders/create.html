@@ -1,29 +1,36 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% block title %}
-    Оформление заказа
+Оформление заказа
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row" style="margin-top: 6%">
         <div class="col-md-5">
-            <h4 class="page-header">Форма заказа</h4>
+            <h4 class="page-header">Заполните данные</h4>
 
-            <form action="." method="post">
-                {% csrf_token %}
-                {{ form.as_p }}<br>
-                <button type="submit" class="btn btn-outline-primary">Подтвердить заказ</button>
+            <form method="post">
+            {% csrf_token %}
+            <!-- Отражение общих ошибок авторизации ползователей. Т.е. ошибки связанные не с заполнением полей, напр. неверные логин/пароль-->
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            <!-- Конец -->
+            {% for f in form %}
+            <p><label class="form-label" for="{{ f.id_for_label }}"> {{f.label}}: </label>{{ f }}</p>
+            <div class="form-error">{{ f.errors }}</div>
+            <br><br>
+            {% endfor %}
+            <br><br><br>
+            <button type="submit" class="btn btn-outline-primary">Подтвердить заказ</button>
+            <br>
             </form>
 
         </div>
         <div class="col-md-4">
-            <div class="page-header">
-                Заказ
-            </div>
-            <li class="list-group-item active">Сумма: {{cart_total_price}} рублей</li>
+            <li class="list-group-item active">Заказ на сумму: {{cart_total_price}} ₽</li>
             </ul>
         </div>
     </div>
 </div>
+<br><br>
 {% endblock %}

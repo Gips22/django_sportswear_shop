@@ -1,12 +1,17 @@
 {% extends "shop/base.html" %}
-
+{% block title %}
+    Заказ оформлен
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row" style="margin-top: 6%">
             <div class="col-md-8 col-md-offset-2">
-                <h3 class="page-header">Спасибо что скупляетесь у нас
+                <br><br>
+                <h3 class="page-header">Ваш заказ оформлен.
                 </h3>
-                <p>Ваш заказ оформлен. Номер заказа <strong>{{ order.id }}</strong>.</p>
+                <br>
+                <p>Номер заказа <strong>{{ order.id }}</strong>.</p>
+                <br><br>
             </div>
         </div>
     </div>

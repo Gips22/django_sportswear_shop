@@ -13,10 +13,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/' # будет создана папка /media, в которой у нас будут храниться все файлы загруженные пользователем
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # путь в файловой системе по которому хранятся файлы. По умолчанию путь формируется из настроек BASE_DIR и MEDIA_ROOT
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # путь в файловой системе по которому хранятся файлы. По умолчанию путь формируется из настроек BASE_DIR (корневая папка проекта) и MEDIA_ROOT
 
 CART_ID = 'cart'
 # Quick-start development settings - unsuitable for production
@@ -130,9 +132,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = []
+STATIC_URL = '/static/'  # префикс который будет добавляться к url статических файлов
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # тут хранится путь к общей папке static, в кот будут собираться все статич файлы и использоваться на боевом веб сервере-хостинге
+STATICFILES_DIRS = []  # список для нестандартных путей где искать ститичные файлы
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -142,3 +144,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+''' используется только во время разработки и не подходит для продекшена,
+записываетет все письма в файл на сервере.
+EMAIL_FILE_PATH - указывать путь где будут храниться письма
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' - выводит сообщение
+в консоль.
+'''
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'emails/email-messages/'
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

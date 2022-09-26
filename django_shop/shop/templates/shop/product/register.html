@@ -11,8 +11,10 @@
     {% for f in form %}
 <p><label class="form-label" for="{{ f.id_for_label }}"> {{f.label}}: </label>{{ f }}</p>
 <div class="form-error">{{ f.errors }}</div>
+    <br><br><br>
     {% endfor %}
     <button type="submit" class="btn btn-outline-primary">Регистрация</button>
 </form>
+    <br>
 </div>
 {% endblock %}

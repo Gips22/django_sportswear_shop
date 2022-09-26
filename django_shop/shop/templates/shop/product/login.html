@@ -3,7 +3,9 @@
 {{ title }}
 {% endblock %}
 {% block content %}
+<br><br><br>
 <h1>{{title}}</h1>
+<br>
 <div class="col-md-5">
 <form method="post">
     {% csrf_token %}
@@ -15,8 +17,11 @@
     {% for f in form %}
 <p><label class="form-label" for="{{ f.id_for_label }}"> {{f.label}}: </label>{{ f }}</p>
 <div class="form-error">{{ f.errors }}</div>
+    <br><br>
     {% endfor %}
+    <br><br><br>
     <button type="submit" class="btn btn-outline-primary">Войти</button>
+    <br>
 </form>
 </div>
 {% endblock %}

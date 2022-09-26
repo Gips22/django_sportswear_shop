@@ -27,6 +27,8 @@ urlpatterns = [
 
 ]
 
+
+
 if settings.DEBUG:
     import debug_toolbar
 
@@ -34,6 +36,8 @@ if settings.DEBUG:
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
+    # в режиме отладки добавляем к нашим маршрутам еще один маршрут для статических данных, графических файлов
+    # вторым аргументом тут идет папка, где будут идти файлы. На реальных серверах это не нужно, так как уже все настроено
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# handler404 = pageNotFound
+# handler404 = pageNotFound # тут в случае ошибки 404 вызывалась бы наша ф-ия pageNotFound. Нужна на продакшене

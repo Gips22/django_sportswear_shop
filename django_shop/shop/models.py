@@ -10,7 +10,9 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('name',) # сортировка применяется и в отображении в админке и в шаблонах
+        verbose_name = 'Категории'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return self.name
@@ -29,13 +31,18 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
 
     class Meta:
+        verbose_name = 'Товары'  # отображение названия в админке
+        verbose_name_plural = 'Товары'  # отображение названия в админке
         ordering = ('title',)
 
     def __str__(self):
         return self.title
 
+    # self ссылка на ЭК модели. Через self обращаемся к нужному атрибуту для формирования динамического url и использования в шаблонах.
     def get_absolute_url(self):
-        return reverse('shop:product_detail', args = [self.category.slug, self.slug])
+        return reverse('shop:product_detail', args=[self.category.slug,
+                                                    self.slug])  # c помощью reverse формируем маршурут с именем shop:product_detail, для этого дополнитнительно  передаем нужные параметры
+
 
 class Review(models.Model):
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
@@ -46,4 +53,3 @@ class Review(models.Model):
 
     class Meta:
         ordering = ('-created',)
-
