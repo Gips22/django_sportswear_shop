@@ -3,11 +3,11 @@
 {% block title %}Корзина{% endblock %}
 
 {% block content %}
-<div class="card shadow-custom border-0 col-lg-10 mx-auto mb-3">
+<div>
   <h3 class="py-2 font-weight-bold text-grey text-center">
     Ваш заказ:
   </h3>
-  <div class="row justify-content-center py-2 text-center header-desc">
+  <div class="row py-2 text-center header-desc">
     <div class="col-lg-2 align-self-center">
       Продукт
     </div>
@@ -93,11 +93,8 @@
 <hr>
 <div class="total-price-cart">
  <h4 class="row justify-content-center">
-  <div class="col-5 col-lg-9 text-right text-grey">
-    Итоговая цена:
-  </div>
-  <div class="col-5 col-lg-2 text-right text-danger">
-    ₽{{ cart_total_price|floatformat:2 }}
+  <div>
+    Итоговая цена:  <span class="text-danger"> ₽ {{ cart_total_price|floatformat:2 }}</span>
   </div>
   <div class="col-2 col-lg-1">
   </div>
