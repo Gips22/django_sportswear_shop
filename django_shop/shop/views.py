@@ -23,7 +23,7 @@ class ShopHome(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
         context[
-            'categories'] = categories  # тут не оч понял почему нельяза переменную сategories со списком категорий из модели объявить прямо в классе, а нужно объявлять вне класса (сверху)
+            'categories'] = categories 
         return context
 
 
@@ -70,8 +70,6 @@ def product_detail(request, category_slug, slug):
 #         review_form = ReviewForm()
 #         cart_product_form = CartAddProductForm()
 #         return render(request, 'product/detail.html', {'product': product, 'review_form': review_form, 'cart_product_form': cart_product_form})
-#
-
 
 class ShopCategory(ListView):
     model = Product
@@ -108,7 +106,7 @@ class RegisterUser(CreateView):
     def form_valid(self, form):
         """Встроенный метод который вызывается при успешной регистрации.
         Нужен чтобы зарегистрированного пользователя автоматически авторизовывали"""
-        user = form.save()  # самостоятельно сохраняем пользователя в БД.
+        user = form.save()  # самостоятельно сохраняем пользователя в нашу модель в БД.
         login(self.request, user)  # функция для авторизации пользователя
         return redirect('shop:product_list')
 
@@ -149,5 +147,5 @@ class FeedbackFormView(FormView):
         return context
 
     def form_valid(self, form):
-        print(form.cleaned_data)
+        print(form.cleaned_data)  # если форма заполнена корректно, то при отправке печатаем в консоль данные из формы
         return redirect('shop:product_list')

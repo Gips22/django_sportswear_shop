@@ -7,7 +7,7 @@ from .models import Product, Category
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',)}  # cоздание слага на основе атрибута name
 
 
 @admin.register(Product)
@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug', 'price', 'available', 'get_html_photo']
     list_filter = ['available']
     list_editable = ['price', 'available']
-    prepopulated_fields = {'slug': ('title',)}
+    prepopulated_fields = {'slug': ('title',)}  # cоздание слага на основе атрибута title
     search_fields = ['title']
 
     #  метод для отображения миниатюр в админке
