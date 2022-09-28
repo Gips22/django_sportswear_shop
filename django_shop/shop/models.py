@@ -10,7 +10,7 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
 
     class Meta:
-        ordering = ('name',) # сортировка применяется и в отображении в админке и в шаблонах
+        ordering = ('name',)  # сортировка применяется и в отображении в админке и в шаблонах
         verbose_name = 'Категории'
         verbose_name_plural = 'Категории'
 
@@ -42,6 +42,13 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.category.slug,
                                                     self.slug])  # c помощью reverse формируем маршурут с именем shop:product_detail, для этого дополнитнительно  передаем нужные параметры
+
+    def get_average_review_score(self):
+        average_score = 0.0
+        if self.reviews.count() > 0:
+            total_score = sum([review.rating for review in self.reviews.all()])
+            average_score = total_score / self.reviews.count()
+        return round(average_score, 1)
 
 
 class Review(models.Model):

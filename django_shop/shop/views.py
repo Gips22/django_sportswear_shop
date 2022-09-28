@@ -23,7 +23,7 @@ class ShopHome(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
         context[
-            'categories'] = categories 
+            'categories'] = categories
         return context
 
 
@@ -44,9 +44,27 @@ class ShopHome(ListView):
 def product_detail(request, category_slug, slug):
     category = get_object_or_404(Category, slug=category_slug)
     product = get_object_or_404(Product, slug=slug)
-    cart_product_form = CartAddProductForm()
+
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+
+        if review_form.is_valid():
+            cf = review_form.cleaned_data
+
+            author_name = "Anonymous"
+            Review.objects.create(
+                product=product,
+                author=author_name,
+                rating=cf['rating'],
+                text=cf['text']
+            )
+        return redirect('shop:product_detail', category_slug=category_slug, slug=slug)
+    else:
+        review_form = ReviewForm()
+        cart_product_form = CartAddProductForm()
     return render(request, 'shop/product/detail.html',
-                  {'product': product, 'category': category, 'cart_product_form': cart_product_form})
+                  {'product': product, 'category': category, 'review_form': review_form,
+                   'cart_product_form': cart_product_form})
 
 
 # def product_detail(request, category_slug, slug):
@@ -100,7 +118,8 @@ class RegisterUser(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Регистрация'
         context[
-            'categories'] = categories  # тут не оч понял почему нельяза переменную сategories со списком категорий из модели объявить прямо в классе, а нужно объявлять вне класса (сверху)
+            'categories'] = categories
+        context['form_first'] = RegisterUser.form_class
         return context
 
     def form_valid(self, form):
@@ -144,6 +163,7 @@ class FeedbackFormView(FormView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Форма обратной связи'
+        context['form_feedback'] = FeedbackFormView.form_class
         return context
 
     def form_valid(self, form):

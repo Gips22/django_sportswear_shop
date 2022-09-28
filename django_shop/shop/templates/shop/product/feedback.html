@@ -8,24 +8,24 @@
     {% csrf_token %}
     <div class="row">
       <div class="col-5"><br>
-        {{ form.name|as_crispy_field }}
+        {{ form_feedback.name|as_crispy_field }}
       </div>
       <p>
       <div class="col-5">
-        {{ form.email|as_crispy_field }}
+        {{ form_feedback.email|as_crispy_field }}
       </div>
       </p>
       <div class="col-5">
-        {{ form.content|as_crispy_field }}
+        {{ form_feedback.content|as_crispy_field }}
       </div>
       <p>
       <div class="col-5">
-        {{ form.capatcha|as_crispy_field }}
+        {{ form_feedback.capatcha|as_crispy_field }}
       </div>
       </p>
       </div>
 
-    <button type="submit" class="btn btn-success">Отправить</button>
+    <button type="submit" class="btn btn-outline-primary">Отправить</button>
   </form>
 <br>
 {% endblock %}
