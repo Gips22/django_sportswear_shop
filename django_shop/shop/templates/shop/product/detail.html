@@ -4,48 +4,7 @@
 {{ product.category }}: {{ product.title }}
 {% endblock %}
 {% block content %}
-<div class="product-detail">
-<img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/img/no_image.png' %}{% endif %}">
-<h1>{{ product.name }}</h1>
-<h2>
-<a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a>
-</h2>
-<p class="price">₽ {{ product.price }}</p>
-{{ product.description|linebreaks }}
-</div>
-
-<div class="mb-4">
-     <form action="{% url 'cart:cart_add' product.id %}" method="post">
-         {% csrf_token %}
-     <span class="input-group add-to-cart shadow-custom">
-     <div class="input-group-prepend">
-     <span class="input-group-text font-weight-bold px-3 btn btn-block price">
-        ${{ product.price }}
-    </span>
-    </div>
-
-    {{ cart_product_form.quantity }}
-
-         <div class="input-group-append">
-          <button class="btn btn-primary px-4 reduce_padding" type="submit" data-toggle="tooltip" data-placement="top" title="Add to cart">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
-          </div>
-
-    </span>
-    </form>
-   </div>
-
-
-
-
-
-
-
-
-
-
-
+<br>
 <div class="card shadow-custom border-0 col-lg-8 mx-auto">
     <div class="row justify-content-center">
      <div class="col-lg-6">
@@ -58,13 +17,13 @@
       </h2>
       <div>
         <span class="font-weight-bold text-grey">
-        Hotness:
-        </span> {{ product.title }}
+        Категория:
+        </span> <a href="{{ product.category.get_absolute_url }}"> {{ product.category }}</a>
       </div>
      <div>
         <span class="font-weight-bold text-grey">
-        Volume:
-        </span> 100ml
+        Цена: <span class="price">₽ {{ product.price }}</span>
+        </span>
      </div>
     </div>
         <div class="mt-3">
@@ -72,21 +31,21 @@
         </div>
     {% if product.available %}
     <div class="alert alert-success my-3 text-center">
-        Available
+        В наличии
     </div>
     {% else %}
     <div class="alert alert-danger my-3 text-center">
-        Currently unavailable
+        Временно недоступен
     </div>
     {% endif %}
     <hr>
     <div class="review">
      <span class="font-weight-bold text-grey">
-     Average rating: {{ product.get_average_review_score }}/5.0
+     Средний рейтинг: {{ product.get_average_review_score }}/5.0
      </span>
     <div class="mb-3 font-weight-bold">
         <a href="" class="text-warning" data-toggle="modal" data-target="#myModal">
-        Write review
+        Оставить отзыв
         </a>
     </div>
     </div>
@@ -96,18 +55,12 @@
      <span class="input-group add-to-cart shadow-custom">
      <div class="input-group-prepend">
      <span class="input-group-text font-weight-bold px-3 btn btn-block price">
-        ${{ product.price }}
+        ₽{{ product.price }}
     </span>
     </div>
-    <span id="minus" class="input-group-text button_minus px-4">
-        -
-    </span>
     {{ cart_product_form.quantity }}
-    <span id="plus" class="input-group-text button_plus px-4">
-    +
-    </span>
          <div class="input-group-append">
-          <button class="btn btn-danger px-4 reduce_padding" type="submit" data-toggle="tooltip" data-placement="top" title="Add to cart">
+          <button class="btn btn-primary px-4 reduce_padding" type="submit" data-toggle="tooltip" data-placement="top" title="Add to cart">
             <i class="fas fa-shopping-cart"></i>
           </button>
           </div>
@@ -119,7 +72,7 @@
 </div>
     <hr class="col-7 mx-auto">
     <div class="card shadow-custom border-0 col-lg-8 mx-auto mb-3">
-    <h3 class="py-2 text-grey">Reviews:</h3>
+    <h3 class="py-2 text-grey">Отзывы:</h3>
      {% for review in product.reviews.all %}
     <span class="font-weight-bold py-2 text-grey">
     {{ review.author }} - {{ review.rating }}/5 - {{ review.created|date }}
@@ -129,7 +82,7 @@
     </span>
     <hr>
     {% empty %}
-    <span class="pb-2">Currently no reviews</span>
+    <span class="pb-2">Пока нет отзывов</span>
     {% endfor %}
 </div>
 
@@ -138,7 +91,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Write your review</h5>
+                    <h5 class="modal-title">Оставьте свой отзыв</h5>
                     <button class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <form method="post">
@@ -147,31 +100,31 @@
                     <div class="modal-body">
                         <div class="bg-grey">
                             <div class="text-center pt-2">
-                                Rating:
+                                Рейтинг:
                                 <div id="full-stars" class="d-inline text-center">
                                     <div class="rating-group">
                                         <label class="rating__label" for="id_rating_0">
-                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                            <i class="rating__icon rating__icon--star fa fa-star">1</i>
                                         </label>
                                         <input class="rating__input" name="rating"
                                                id="id_rating_0" value="1" type="radio" required>
                                         <label class="rating__label" for="id_rating_1">
-                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                            <i class="rating__icon rating__icon--star fa fa-star">2</i>
                                         </label>
                                         <input class="rating__input" name="rating"
                                                id="id_rating_1" value="2" type="radio" required>
                                         <label class="rating__label" for="id_rating_2">
-                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                            <i class="rating__icon rating__icon--star fa fa-star">3</i>
                                         </label>
                                         <input class="rating__input" name="rating"
                                                id="id_rating_2" value="3" type="radio" required>
                                         <label class="rating__label" for="id_rating_3">
-                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                            <i class="rating__icon rating__icon--star fa fa-star">4</i>
                                         </label>
                                         <input class="rating__input" name="rating"
                                                id="id_rating_3" value="4" type="radio" required>
                                         <label class="rating__label" for="id_rating_4">
-                                            <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                            <i class="rating__icon rating__icon--star fa fa-star">5</i>
                                         </label>
                                         <input class="rating__input" name="rating" checked
                                                id="id_rating_4" value="5" type="radio" required>
@@ -185,17 +138,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-danger" type="submit">Confirm</button>
+            <button class="btn btn-primary" type="submit">Подтвердить</button>
         </div>
         </form>
     </div>
     </div>
 </div>
-
-
-
-
-
-
 
 {% endblock %}
