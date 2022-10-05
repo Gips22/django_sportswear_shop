@@ -27,14 +27,12 @@ urlpatterns = [
 
 ]
 
-
-
 if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
 
     # в режиме отладки добавляем к нашим маршрутам еще один маршрут для статических данных, графических файлов
     # вторым аргументом тут идет папка, где будут идти файлы. На реальных серверах это не нужно, так как уже все настроено
