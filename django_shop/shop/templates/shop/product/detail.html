@@ -7,24 +7,24 @@
 <br>
 <div class="card shadow-custom border-0 col-lg-8 mx-auto">
     <div class="row justify-content-center">
-     <div class="col-lg-6">
-      <img src="{{ product.image.url }}" alt="" class="img-fluid rounded-0">
+    <div class="col-lg-6">
+    <img src="{{ product.image.url }}" alt="" class="img-fluid rounded-0">
     </div>
     <div class="col-lg-6">
-     <div class="top">
-      <h2 class="mt-4 font-weight-bold text-grey">
+    <div class="top">
+    <h2 class="mt-4 font-weight-bold text-grey">
         {{ product.name }}
-      </h2>
-      <div>
-        <span class="font-weight-bold text-grey">
+    </h2>
+    <div>
+    <span class="font-weight-bold text-grey">
         Категория:
-        </span> <a href="{{ product.category.get_absolute_url }}"> {{ product.category }}</a>
-      </div>
-     <div>
-        <span class="font-weight-bold text-grey">
+    </span> <a href="{{ product.category.get_absolute_url }}"> {{ product.category }}</a>
+    </div>
+    <div>
+    <span class="font-weight-bold text-grey">
         Цена: <span class="price">₽ {{ product.price }}</span>
-        </span>
-     </div>
+    </span>
+    </div>
     </div>
         <div class="mt-3">
         {{ product.description }}

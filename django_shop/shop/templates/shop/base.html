@@ -16,75 +16,69 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito&display=swap">
-
 </head>
 
 <body>
+<!-- Navbar-->
 {% block mainmenu %}
-    <div>
-        <div class="header-white">
-            <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search fixed-top bg-light">
+<div class="header-white">
+    <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search fixed-top bg-light">
+        <div class="container"><a class="navbar-brand text-dark" href="{% url 'shop:product_list' %}"><span style="color:#0d6efd"><b>Sport shop</a></b></span><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav">
 
-                <div class="container"><a class="navbar-brand text-dark" href="{% url 'shop:product_list' %}"><span style="color:#0d6efd"><b>Sport shop</a></b></span><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse"
-                        id="navcol-1">
-                        <ul class="nav navbar-nav">
-
-                            <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-expanded="false" href="#">Категории </a>
-                            <div class="dropdown-menu" role="menu">
-                                {% for c in categories %}
-                                <a class="dropdown-item" role="presentation" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-                                {% endfor %}
-                            </div>
-                            </li>
-
-                            <li class="nav-item" role="presentation"><a class="nav-link active text-dark" href="{% url 'shop:feedback' %}">Обратная связь</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link active text-dark" href="{% url 'shop:about' %}">О нас</a></li>
-                        </ul>
-                        <form class="form-inline mr-auto" target="_self">
-                        </form>
-                        {% if request.user.is_authenticated %}
-                        <span style="color:#4169E1;">{{ user.username }} &nbsp</span>
-                        <a class="btn btn-light action-button" role="button" href="{% url 'shop:logout' %}">Выйти</a>
-
-                        {% else %}
-                         <a class="btn btn-light action-button" role="button" href="{% url 'shop:login' %}">Войти</a>&nbsp
-                        <a class="btn btn-light action-button" role="button" href="{% url 'shop:register' %}">Зарегистрироваться</a>
-                        {% endif %}
+                    <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle text-dark" data-toggle="dropdown" aria-expanded="false" href="#">Категории </a>
+                    <div class="dropdown-menu" role="menu">
+                        {% for c in categories %}
+                        <a class="dropdown-item" role="presentation" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                        {% endfor %}
                     </div>
+                    </li>
 
-                        <a class="ott btn btn-primary" href="{% url 'cart:cart_detail' %}" role="button"><span >Корзина</span></a>
-
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <div class="dropdown-custom">
-                        <a href="{% url 'cart:cart_detail' %}"
-                           class="nav-link text-black drop-btn">
-                            <i class="fas fa-shopping-cart"></i>
-                            ₽<span id="cart_price">{{ cart_total_price }}</span>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-                </div>
-
-            </nav>
-
-
-{% endblock mainmenu %}
-        <!-- Заголовок с брендом-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-2"><span style="color:#0d6efd"><b> SPORT </b></span> SHOP</h1>
-                    <p class="lead text-white-50 mb-0">Удобный и стильный образ для спорта на каждый день.</p>
-                </div>
+                    <li class="nav-item" role="presentation"><a class="nav-link active text-dark" href="{% url 'shop:feedback' %}">Обратная связь</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active text-dark" href="{% url 'shop:about' %}">О нас</a></li>
+                </ul>
+                <form class="form-inline mr-auto" target="_self">
+                </form>
+                {% if request.user.is_authenticated %}
+                <span style="color:#4169E1;">{{ user.username }} &nbsp</span>
+                <a class="btn btn-light action-button" role="button" href="{% url 'shop:logout' %}">Выйти</a>
+                {% else %}
+                 <a class="btn btn-light action-button" role="button" href="{% url 'shop:login' %}">Войти</a>&nbsp
+                <a class="btn btn-light action-button" role="button" href="{% url 'shop:register' %}">Зарегистрироваться</a>
+                {% endif %}
             </div>
-        </header>
-        <!-- Конец заголовка-->
+                <a class="ott btn btn-primary" href="{% url 'cart:cart_detail' %}" role="button"><span >Корзина</span></a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <div class="dropdown-custom">
+                <a href="{% url 'cart:cart_detail' %}"
+                   class="nav-link text-black drop-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    ₽<span id="cart_price">{{ cart_total_price }}</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+        </div>
+    </nav>
+</div>
+{% endblock mainmenu %}
+<!--End Navbar-->
+
+<!-- Заголовок с брендом-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-2"><span style="color:#0d6efd"><b> SPORT </b></span> SHOP</h1>
+            <p class="lead text-white-50 mb-0">Удобный и стильный образ для спорта на каждый день.</p>
+        </div>
+    </div>
+</header>
+<!-- Конец заголовка-->
 
 <div id="content">
 {% block content %} {% endblock %}
@@ -122,10 +116,11 @@
 <!-- Конец пагинации -->
 
 </div>
+
 <!-- Footer-->
-        <footer class="py-5 bg-dark footer">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Django website by Andrey Naletov 2022</p></div>
-        </footer>
+<footer class="py-5 bg-dark footer">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Django website by Andrey Naletov 2022</p></div>
+</footer>
 <!-- End footer-->
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

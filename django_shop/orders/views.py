@@ -5,11 +5,10 @@ from .forms import OrderCreateForm
 from cart.views import *
 from cart.cart import Cart
 
-# Create your views here.
 
 def order_create(request):
     cart = Cart(request)
-    if request.method == 'POST': # если форма первый раз отображается то метод будет None, и тогда мы перейдем в else для отображения новой формы
+    if request.method == 'POST':  # если форма первый раз отображается то метод будет None, и тогда мы перейдем в else для отображения новой формы
         form = OrderCreateForm(request.POST)
         # отправка данных на сервер
         if form.is_valid():
