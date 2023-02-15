@@ -1,19 +1,26 @@
 {% extends "shop/base.html" %}
+
 {% block title %}
-{{ title }}
+    {{ title }}
 {% endblock %}
+
 {% block content %}
-<h1>{{title}}</h1>
-<div class="col-md-5">
-<form method="post">
-    {% csrf_token %}
-    {% for f in form_first %}
-<p><label class="form-label" for="{{ f.id_for_label }}"> {{f.label}}: </label>{{ f }}</p>
-<div class="form-error">{{ f.errors }}</div>
-    <br><br><br>
-    {% endfor %}
-    <button type="submit" class="btn btn-outline-primary">Регистрация</button>
-</form>
-<br>
-</div>
+    <h1>{{ title }}</h1>
+    <div class="col-md-5">
+        <form method="post">
+            {% csrf_token %}
+            {% for f in form_first %}
+                <p>
+                    <label class="form-label" for="{{ f.id_for_label }}">
+                        {{ f.label }}:
+                    </label>
+                    {{ f }}
+                </p>
+                <div class="form-error">{{ f.errors }}</div>
+                <br><br><br>
+            {% endfor %}
+            <button type="submit" class="btn btn-outline-primary">Регистрация</button>
+        </form>
+        <br>
+    </div>
 {% endblock %}

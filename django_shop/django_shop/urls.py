@@ -24,4 +24,3 @@ if settings.DEBUG:
     # вторым аргументом тут идет папка, где будут идти файлы. На реальных серверах это не нужно, так как уже все настроено
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# handler404 = pageNotFound # тут в случае ошибки 404 вызывалась бы наша ф-ия pageNotFound. Нужна на продакшене

@@ -1,147 +1,125 @@
 {% extends "shop/base.html" %}
+
 {% load static %}
+
 {% block title %}
-{{ product.category }}: {{ product.title }}
+    {{ product.category }}: {{ product.title }}
 {% endblock %}
+
 {% block content %}
-<br>
-<div class="card shadow-custom border-0 col-lg-8 mx-auto">
-    <div class="row justify-content-center">
-    <div class="col-lg-6">
-    <img src="{{ product.image.url }}" alt="" class="img-fluid rounded-0">
-    </div>
-    <div class="col-lg-6">
-    <div class="top">
-    <h2 class="mt-4 font-weight-bold text-grey">
-        {{ product.name }}
-    </h2>
-    <div>
-    <span class="font-weight-bold text-grey">
-        Категория:
-    </span> <a href="{{ product.category.get_absolute_url }}"> {{ product.category }}</a>
-    </div>
-    <div>
-    <span class="font-weight-bold text-grey">
-        Цена: <span class="price">₽ {{ product.price }}</span>
-    </span>
-    </div>
-    </div>
-        <div class="mt-3">
-        {{ product.description }}
-        </div>
-    {% if product.available %}
-    <div class="alert alert-success my-3 text-center">
-        В наличии
-    </div>
-    {% else %}
-    <div class="alert alert-danger my-3 text-center">
-        Временно недоступен
-    </div>
-    {% endif %}
-    <hr>
-    <div class="review">
-     <span class="font-weight-bold text-grey">
-     Средний рейтинг: {{ product.get_average_review_score }}/5.0
-     </span>
-    <div class="mb-3 font-weight-bold">
-        <a href="" class="text-warning" data-toggle="modal" data-target="#myModal">
-        Оставить отзыв
-        </a>
-    </div>
-    </div>
-    <div class="mb-4">
-     <form action="{% url 'cart:cart_add' product.id %}" method="post">
-         {% csrf_token %}
-     <span class="input-group add-to-cart shadow-custom">
-     <div class="input-group-prepend">
-     <span class="input-group-text font-weight-bold px-3 price">
-        ₽{{ product.price }}
-    </span>
-    </div>
-    {{ cart_product_form.quantity }}
-         <div class="input-group-append">
-          <button class="btn btn-primary px-4 reduce_padding" type="submit" data-toggle="tooltip" data-placement="top" title="Add to cart">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
-          </div>
-    </span>
-    </form>
-   </div>
-  </div>
- </div>
-</div>
-    <hr class="col-7 mx-auto">
-    <div class="card shadow-custom border-0 col-lg-8 mx-auto mb-3">
-    <h3 class="py-2 text-grey">Отзывы:</h3>
-     {% for review in product.reviews.all %}
-    <span class="font-weight-bold py-2 text-grey">
-    {{ review.author }} - {{ review.rating }}/5 - {{ review.created|date }}
-    </span>
-    <span class="text-justify pb-2">
-    {{ review.text }}
-    </span>
-    <hr>
-    {% empty %}
-    <span class="pb-2">Пока нет отзывов</span>
-    {% endfor %}
-</div>
-
-    <!-- MODAL -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Оставьте свой отзыв</h5>
-                    <button class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <form method="post">
-
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <div class="bg-grey">
-                            <div class="text-center pt-2">
-                                Рейтинг:
-                                <div id="full-stars" class="d-inline text-center">
-                                    <div class="rating-group">
-                                        <label class="rating__label" for="id_rating_0">
-                                            <i class="rating__icon rating__icon--star fa fa-star">1</i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_0" value="1" type="radio" required>
-                                        <label class="rating__label" for="id_rating_1">
-                                            <i class="rating__icon rating__icon--star fa fa-star">2</i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_1" value="2" type="radio" required>
-                                        <label class="rating__label" for="id_rating_2">
-                                            <i class="rating__icon rating__icon--star fa fa-star">3</i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_2" value="3" type="radio" required>
-                                        <label class="rating__label" for="id_rating_3">
-                                            <i class="rating__icon rating__icon--star fa fa-star">4</i>
-                                        </label>
-                                        <input class="rating__input" name="rating"
-                                               id="id_rating_3" value="4" type="radio" required>
-                                        <label class="rating__label" for="id_rating_4">
-                                            <i class="rating__icon rating__icon--star fa fa-star">5</i>
-                                        </label>
-                                        <input class="rating__input" name="rating" checked
-                                               id="id_rating_4" value="5" type="radio" required>
-                                    </div>
-                                </div>
-                            </div>
-                    <hr class="m-0">
-                    <div class="input-field text-center p-2">
-                        {{ review_form.text }}
+    <br>
+    <div class="card shadow-custom border-0 col-lg-8 mx-auto">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <img src="{{ product.image.url }}" alt="" class="img-fluid rounded-0">
+            </div>
+            <div class="col-lg-6">
+                <div class="top">
+                    <h2 class="mt-4 font-weight-bold text-grey">{{ product.name }}</h2>
+                    <div>
+                        <span class="font-weight-bold text-grey">Категория:</span>
+                        <a href="{{ product.category.get_absolute_url }}"> {{ product.category }}</a>
                     </div>
+                    <div>
+                        <span class="font-weight-bold text-grey">Цена: <span class="price">₽ {{ product.price }}</span></span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    {{ product.description }}
+                </div>
+                {% if product.available %}
+                    <div class="alert alert-success my-3 text-center">В наличии</div>
+                {% else %}
+                    <div class="alert alert-danger my-3 text-center">Временно недоступен</div>
+                {% endif %}
+                <hr>
+                <div class="review">
+                    <span class="font-weight-bold text-grey">Средний рейтинг: {{ product.get_average_review_score }}/5.0</span>
+                    <div class="mb-3 font-weight-bold">
+                        <a href="" class="text-warning" data-toggle="modal" data-target="#myModal">Оставить отзыв</a>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                        {% csrf_token %}
+                        <span class="input-group add-to-cart shadow-custom">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold px-3 price">₽{{ product.price }}</span>
+                            </div>
+                            {{ cart_product_form.quantity }}
+                            <div class="input-group-append">
+                                <button class="btn btn-primary px-4 reduce_padding" type="submit" data-toggle="tooltip" data-placement="top" title="Add to cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </span>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">Подтвердить</button>
-        </div>
-        </form>
     </div>
+    <hr class="col-7 mx-auto">
+    <div class="card shadow-custom border-0 col-lg-8 mx-auto mb-3">
+        <h3 class="py-2 text-grey">Отзывы:</h3>
+        {% for review in product.reviews.all %}
+            <span class="font-weight-bold py-2 text-grey">{{ review.author }} - {{ review.rating }}/5 - {{ review.created|date }}</span>
+            <span class="text-justify pb-2">{{ review.text }}</span>
+            <hr>
+        {% empty %}
+            <span class="pb-2">Пока нет отзывов</span>
+        {% endfor %}
+    </div>
+
+<!-- REWIEW MODAL WINDOW -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Оставьте свой отзыв</h5>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="bg-grey">
+                        <div class="text-center pt-2">
+                            Рейтинг:
+                            <div id="full-stars" class="d-inline text-center">
+                                <div class="rating-group">
+                                    <label class="rating__label" for="id_rating_0">
+                                        <i class="rating__icon rating__icon--star fa fa-star">1</i>
+                                    </label>
+                                    <input class="rating__input" name="rating" id="id_rating_0" value="1" type="radio" required>
+                                    <label class="rating__label" for="id_rating_1">
+                                        <i class="rating__icon rating__icon--star fa fa-star">2</i>
+                                    </label>
+                                    <input class="rating__input" name="rating" id="id_rating_1" value="2" type="radio" required>
+                                    <label class="rating__label" for="id_rating_2">
+                                        <i class="rating__icon rating__icon--star fa fa-star">3</i>
+                                    </label>
+                                    <input class="rating__input" name="rating" id="id_rating_2" value="3" type="radio" required>
+                                    <label class="rating__label" for="id_rating_3">
+                                        <i class="rating__icon rating__icon--star fa fa-star">4</i>
+                                    </label>
+                                    <input class="rating__input" name="rating" id="id_rating_3" value="4" type="radio" required>
+                                    <label class="rating__label" for="id_rating_4">
+                                        <i class="rating__icon rating__icon--star fa fa-star">5</i>
+                                    </label>
+                                    <input class="rating__input" name="rating" checked id="id_rating_4" value="5" type="radio" required>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="input-field text-center p-2">
+                            {{ review_form.text }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Подтвердить</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

@@ -3,8 +3,6 @@ from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-# Create your models here.
-
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя категории')
     slug = models.SlugField(unique=True)
