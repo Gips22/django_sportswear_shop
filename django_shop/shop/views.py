@@ -2,7 +2,7 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, FormView
+from django.views.generic import ListView, CreateView, FormView, DetailView
 from .forms import RegisterUserForm, LoginUserForm, FeedbackForm, ReviewForm
 from .models import *
 from cart.forms import CartAddProductForm
@@ -15,9 +15,9 @@ class ShopHome(DataMixin, ListView):
     context_object_name = 'products'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Главная")
-        return dict(list(context.items()) + list(c_def.items()))
+        context = super().get_context_data(**kwargs)  # вызываем родительский метод, чтобы получить базовый контекст
+        context['title'] = "Главная"  # добавляем к контексту свои данные, полученные с помощью метода get_user_context
+        return dict(list(context.items()))
 
     def get_queryset(self):
         """Добавляем для оптимизации нагрузки на БД. Благодаря методу select_related у нас происходит
@@ -26,30 +26,37 @@ class ShopHome(DataMixin, ListView):
         return Product.objects.all().select_related('category')
 
 
-def product_detail(request, category_slug, slug):
-    category = get_object_or_404(Category, slug=category_slug)
-    product = get_object_or_404(Product, slug=slug)
+class ProductDetailView(DataMixin, DetailView):
+    model = Product
+    context_object_name = 'product'
+    template_name = 'shop/product/detail.html'
 
-    if request.method == 'POST':
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+        context['review_form'] = ReviewForm()
+        context['cart_product_form'] = CartAddProductForm()
+        context = self.get_user_context(**context)
+        return context
+
+    def post(self, request, category_slug, slug):
+        product = self.get_object()
         review_form = ReviewForm(request.POST)
 
         if review_form.is_valid():
-            cf = review_form.cleaned_data
-
+            cleaned_form = review_form.cleaned_data
             author_name = "Анонимный пользователь"
             Review.objects.create(
                 product=product,
                 author=author_name,
-                rating=cf['rating'],
-                text=cf['text']
+                rating=cleaned_form['rating'],
+                text=cleaned_form['text']
             )
-        return redirect('shop:product_detail', category_slug=category_slug, slug=slug)
-    else:
-        review_form = ReviewForm()
-        cart_product_form = CartAddProductForm()
-    return render(request, 'shop/product/detail.html',
-                  {'product': product, 'category': category, 'review_form': review_form,
-                   'cart_product_form': cart_product_form})
+            return redirect('shop:product_detail', category_slug=category_slug, slug=slug)
+
+        context = self.get_context_data()
+        context['review_form'] = review_form
+        return self.render_to_response(context)
 
 
 class ShopCategory(DataMixin, ListView):
@@ -60,15 +67,11 @@ class ShopCategory(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Категория - ' + str(context['products'][0].category).upper())
-        return dict(list(context.items()) + list(c_def.items()))
+        context['title'] = 'Категория - ' + str(context['products'][0].category).upper()
+        return dict(list(context.items()))
 
     def get_queryset(self):
         return Product.objects.filter(category__slug=self.kwargs['category_slug'])
-
-
-def about(request):
-    return render(request, 'shop/product/about.html')
 
 
 class RegisterUser(DataMixin, CreateView):
@@ -77,9 +80,9 @@ class RegisterUser(DataMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Регистрация')
+        user_context = self.get_user_context(title='Регистрация')
         context['form_first'] = RegisterUser.form_class
-        return dict(list(context.items()) + list(c_def.items()))
+        return dict(list(context.items()) + list(user_context.items()))
 
     def form_valid(self, form):
         """Встроенный метод который вызывается при успешной регистрации.
@@ -100,16 +103,11 @@ class LoginUser(DataMixin, LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Войти')
-        return dict(list(context.items()) + list(c_def.items()))
+        user_context = self.get_user_context(title='Войти')
+        return dict(list(context.items()) + list(user_context.items()))
 
     def get_success_url(self):
         return reverse_lazy('shop:product_list')
-
-
-def logout_user(request):
-    logout(request)  # стандартная ф-ия Джанго для выхода из авторизации
-    return redirect('shop:login')
 
 
 class FeedbackFormView(DataMixin, FormView):
@@ -119,10 +117,19 @@ class FeedbackFormView(DataMixin, FormView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Обратная связь')
+        user_context = self.get_user_context(title='Обратная связь')
         context['form_feedback'] = FeedbackFormView.form_class
-        return dict(list(context.items()) + list(c_def.items()))
+        return dict(list(context.items()) + list(user_context.items()))
 
     def form_valid(self, form):
         print(form.cleaned_data)  # если форма заполнена корректно, то при отправке печатаем в консоль данные из формы
         return redirect('shop:product_list')
+
+
+def about(request):
+    return render(request, 'shop/product/about.html')
+
+
+def logout_user(request):
+    logout(request)  # стандартная ф-ия Джанго для выхода из авторизации
+    return redirect('shop:login')
