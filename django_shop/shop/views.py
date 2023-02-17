@@ -1,12 +1,16 @@
+from loguru import logger
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView, DetailView
+
 from .forms import RegisterUserForm, LoginUserForm, FeedbackForm, ReviewForm
 from .models import *
-from cart.forms import CartAddProductForm
 from .utils import DataMixin
+from cart.forms import CartAddProductForm
+
+logger.add("debug.log", format="{time} {level} {message}", level="DEBUG", rotation="10 MB")
 
 
 class ShopHome(DataMixin, ListView):
@@ -122,7 +126,7 @@ class FeedbackFormView(DataMixin, FormView):
         return dict(list(context.items()) + list(user_context.items()))
 
     def form_valid(self, form):
-        print(form.cleaned_data)  # если форма заполнена корректно, то при отправке печатаем в консоль данные из формы
+        logger.debug(form.cleaned_data)  # если форма заполнена корректно, то при отправке логируем данные из формы
         return redirect('shop:product_list')
 
 

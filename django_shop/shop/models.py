@@ -4,10 +4,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Category(models.Model):
+    """Модель для категорий товаров"""
     name = models.CharField(max_length=255, verbose_name='Имя категории')
     slug = models.SlugField(unique=True)
 
     class Meta:
+        """Используем для задания параметров в админке, без необходимости добавления новых полей в саму модель. """
         ordering = ('name',)  # сортировка применяется и в отображении в админке и в шаблонах
         verbose_name = 'Категории'
         verbose_name_plural = 'Категории'
@@ -20,6 +22,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    """Модель товаров"""
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     title = models.CharField(max_length=255, verbose_name='Наименование')
     slug = models.SlugField(unique=True)
@@ -42,6 +45,7 @@ class Product(models.Model):
                                                     self.slug])  # c помощью reverse формируем маршурут с именем shop:product_detail, для этого дополнитнительно  передаем нужные параметры
 
     def get_average_review_score(self):
+        """Вычисляем средний рейтинг товара. self.reviews возвращает все связанные объекты Review для данного объекта Product"""
         average_score = 0.0
         if self.reviews.count() > 0:
             total_score = sum([review.rating for review in self.reviews.all()])
@@ -50,6 +54,7 @@ class Product(models.Model):
 
 
 class Review(models.Model):
+    """Модель отзывов."""
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     author = models.CharField(max_length=50)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])

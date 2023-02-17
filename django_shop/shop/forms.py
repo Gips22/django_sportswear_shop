@@ -2,10 +2,12 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
+
 from .models import Review
 
 
 class RegisterUserForm(UserCreationForm):
+    """Форма регистрации пользователей"""
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
@@ -17,11 +19,13 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
+    """Форма для аутентификации потльзователей"""
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
 class FeedbackForm(forms.Form):
+    """Форма обратной связи"""
     name = forms.CharField(label='Имя', max_length=100)
     email = forms.EmailField(label='Email')
     content = forms.CharField(label='Сообщение', widget=forms.Textarea(attrs={'cols': 30, 'rows': 4}))
@@ -29,6 +33,7 @@ class FeedbackForm(forms.Form):
 
 
 class ReviewForm(forms.ModelForm):
+    """Форма для оставления отзыва на товар"""
     class Meta:
         model = Review
         fields = ['text', 'rating']
