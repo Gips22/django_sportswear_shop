@@ -9,7 +9,7 @@ urlpatterns = [
     path('orders/', include('orders.urls')),
     path('captcha/', include('captcha.urls')),
     path('', include('shop.urls', namespace='shop')),  # копируем все urls из приложения shop
-    path('api/', include('drf.urls', namespace='api')),
+
 
 ]
 
