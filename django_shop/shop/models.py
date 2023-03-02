@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 
 class Category(models.Model):
@@ -62,4 +63,9 @@ class Review(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('-created', )
+
+    def save(self, *args, **kwargs):
+        if self.rating > 5 or self.rating < 1:
+            raise ValidationError("Неверный рейтинг")
+        super().save(*args, **kwargs)

@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from shop.models import Category, Product
+from shop.models import Category, Product, Review
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 class CategoryModelTest(TestCase):
@@ -121,3 +123,76 @@ class ProductModelTest(TestCase):
         self.assertEqual(product.description, 'Test Description')
         self.assertEqual(product.price, 9.99)
         self.assertEqual(product.available, True)
+
+
+class ReviewModelTest(TestCase):
+
+    def setUp(self):
+        self.category = Category.objects.create(
+            name='Test Category',
+            slug='test-category'
+        )
+        self.product = Product.objects.create(
+            category=self.category,
+            title='Test Product',
+            slug='test-product',
+            image='test-image.jpg',
+            description='Test Description',
+            price=9.99,
+            available=True,
+        )
+
+    def test_review_creation(self):
+        review = Review.objects.create(
+            product=self.product,
+            author='Test Author',
+            rating=4,
+            text='Test Text'
+        )
+        self.assertEqual(review.product, self.product)
+        self.assertEqual(review.author, 'Test Author')
+        self.assertEqual(review.rating, 4)
+        self.assertEqual(review.text, 'Test Text')
+        self.assertTrue(review.created <= timezone.now())
+
+    def test_review_invalid_rating(self):
+        with self.assertRaises(ValidationError) as context:
+            Review.objects.create(
+                product=self.product,
+                author='Test Author',
+                rating=6,
+                text='Test Text'
+            )
+
+    def test_review_valid_rating(self):
+        review = Review.objects.create(
+            product=self.product,
+            author='Test Author',
+            rating=1,
+            text='Test Text'
+        )
+        self.assertEqual(review.rating, 1)
+
+    def test_reviews_ordered_by_creation_date(self):
+        Review.objects.create(
+            product=self.product,
+            author='Test Author 1',
+            rating=5,
+            text='Test Text 1'
+        )
+        Review.objects.create(
+            product=self.product,
+            author='Test Author 2',
+            rating=3,
+            text='Test Text 2'
+        )
+        Review.objects.create(
+            product=self.product,
+            author='Test Author 3',
+            rating=4,
+            text='Test Text 3'
+        )
+
+        reviews = Review.objects.filter(product=self.product)
+        self.assertEqual(reviews.count(), 3)
+        self.assertEqual(list(reviews), list(reviews.order_by('-created')))
