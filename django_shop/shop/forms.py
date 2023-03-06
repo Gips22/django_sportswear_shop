@@ -50,6 +50,7 @@ class FeedbackForm(forms.Form):
 
 class ReviewForm(forms.ModelForm):
     """Форма для оставления отзыва на товар"""
+
     class Meta:
         model = Review
         fields = ['text', 'rating']
