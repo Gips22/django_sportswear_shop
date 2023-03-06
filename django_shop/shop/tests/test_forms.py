@@ -119,10 +119,10 @@ class FeedbackFormTest(TestCase):
             'name': 'Test User',
             'email': 'test@example.com',
             'content': 'Test message',
-            'capatcha': 'PASSED',
+            'capatcha': 'FAILED',
         }
-        response = self.client.post(reverse('shop:feedback'), data=form_data, follow=True)
-        # self.assertRedirects(response, reverse('shop:product_list') + '?sent=True')
+        response = self.client.post(reverse('shop:feedback'), data=form_data)
+        self.assertRedirects(response, reverse('shop:product_list') + '?sent=True')
         self.assertEqual(response.url, reverse('shop:product_list') + '?sent=True')
 
         

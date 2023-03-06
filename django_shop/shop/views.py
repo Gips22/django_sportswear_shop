@@ -88,6 +88,7 @@ class RegisterUser(DataMixin, CreateView):
         context['form_first'] = RegisterUser.form_class
         return dict(list(context.items()) + list(user_context.items()))
 
+
     def form_valid(self, form):
         """Встроенный метод который вызывается при успешной регистрации.
         Нужен чтобы зарегистрированного пользователя автоматически авторизовывали.
@@ -117,7 +118,6 @@ class LoginUser(DataMixin, LoginView):
 class FeedbackFormView(DataMixin, FormView):
     form_class = FeedbackForm
     template_name = 'shop/product/feedback.html'
-    success_url = reverse_lazy('shop:product_list')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

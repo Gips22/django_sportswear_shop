@@ -9,24 +9,19 @@
 {% block content %}
     <form method="post" novalidate>
         {% csrf_token %}
-        <div class="row">
-            <div class="col-5"><br>
-                {{ form_feedback.name|as_crispy_field }}
+        {% for field in form %}
+            <div class="row">
+                <div class="col-5">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-5">
+                    {{ field|as_crispy_field }}
+                    <div class="form-error">
+                        {{ field.errors }}
+                    </div>
+                </div>
             </div>
-            <p>
-            <div class="col-5">
-                {{ form_feedback.email|as_crispy_field }}
-            </div>
-            </p>
-            <div class="col-5">
-                {{ form_feedback.content|as_crispy_field }}
-            </div>
-            <p>
-            <div class="col-5">
-                {{ form_feedback.capatcha|as_crispy_field }}
-            </div>
-            </p>
-        </div>
+        {% endfor %}
         <button type="submit" class="btn btn-outline-primary">Отправить</button>
     </form>
     <br>

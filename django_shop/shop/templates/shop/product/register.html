@@ -9,7 +9,12 @@
     <div class="col-md-5">
         <form method="post">
             {% csrf_token %}
-            {% for f in form_first %}
+
+            <!-- Отражение общих ошибок авторизации ползователей. Т.е. ошибки связанные не с заполнением полей, напр. неверные логин/пароль-->
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            <!-- Конец -->
+
+            {% for f in form %}
                 <p>
                     <label class="form-label" for="{{ f.id_for_label }}">
                         {{ f.label }}:
