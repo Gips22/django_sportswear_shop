@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.core.mail import send_mail
 from .models import OrderItem
 from .forms import OrderCreateForm
@@ -23,8 +22,8 @@ def order_create(request):
             cart.clear()
             send_mail('Заказ Оформлен',
                       'Войдите в админ панель, что бы просмотреть новый заказ.',
-                      'gipsme123@gmail.com',
-                      ['gipsme123@gmail.com '], fail_silently=True)
+                      'gipsme123123123@gmail.com',
+                      ['gipsme123123123@gmail.com '], fail_silently=True)
         return render(request, 'orders/created.html', {'order': order})
     else:
         form = OrderCreateForm()

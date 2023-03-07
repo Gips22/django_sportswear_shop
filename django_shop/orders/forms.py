@@ -11,5 +11,3 @@ class OrderCreateForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
         }
-
-

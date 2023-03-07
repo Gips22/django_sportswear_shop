@@ -88,7 +88,6 @@ class RegisterUser(DataMixin, CreateView):
         context['form_first'] = RegisterUser.form_class
         return dict(list(context.items()) + list(user_context.items()))
 
-
     def form_valid(self, form):
         """Встроенный метод который вызывается при успешной регистрации.
         Нужен чтобы зарегистрированного пользователя автоматически авторизовывали.

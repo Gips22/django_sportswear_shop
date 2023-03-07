@@ -3,8 +3,6 @@ from django.contrib import admin
 from .models import Order, OrderItem
 
 
-# Register your models here.
-
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ['product']
@@ -15,7 +13,7 @@ class OrderAdmin(admin.ModelAdmin):
                     'email', 'address', 'postal_code',
                     'city', 'paid', 'updated']
     list_filter = ['paid', 'created', 'updated']
-    inlines = [OrderItemInline]
+    inlines = [OrderItemInline]  # все связанные модели можно редактировать в одном месте.
 
 
 admin.site.register(Order, OrderAdmin)

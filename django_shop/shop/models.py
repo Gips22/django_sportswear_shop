@@ -30,7 +30,7 @@ class Product(models.Model):
     image = models.ImageField(verbose_name='Изображение')
     description = models.TextField(verbose_name='Описание', null=True)
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
-    available = models.BooleanField(default=True)
+    available = models.BooleanField(default=True, verbose_name='Доступность')
 
     class Meta:
         verbose_name = 'Товары'  # отображение названия в админке
@@ -56,11 +56,11 @@ class Product(models.Model):
 
 class Review(models.Model):
     """Модель отзывов."""
-    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
-    author = models.CharField(max_length=50)
-    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    text = models.TextField(blank=True)
-    created = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE, verbose_name='Продукт')
+    author = models.CharField(max_length=50, verbose_name='Автор')
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name='Рейтинг')
+    text = models.TextField(blank=True, verbose_name='Текст')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
         ordering = ('-created', )
