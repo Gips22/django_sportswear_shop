@@ -1,10 +1,8 @@
 from django.db import models
-
 from shop.models import Product
-# Create your models here.
 
 
-class Order (models.Model):
+class Order(models.Model):
     first_name = models.CharField(max_length=60, verbose_name="Имя")
     last_name = models.CharField(max_length=60, verbose_name="Фамилия")
     email = models.EmailField(verbose_name="Email")
@@ -39,4 +37,3 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
-
