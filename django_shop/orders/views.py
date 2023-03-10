@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.views import *
-from cart.cart import Cart
+from cart.services import Cart
 
 
 def order_create(request):
@@ -19,7 +19,7 @@ def order_create(request):
                     price=item['price'],
                     quantity=item['quantity']
                 )
-            cart.clear()
+            cart.clear_cart(request)
             send_mail('Заказ Оформлен',
                       'Войдите в админ панель, что бы просмотреть новый заказ.',
                       'gipsme123123123@gmail.com',
