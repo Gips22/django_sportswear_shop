@@ -26,14 +26,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'debug_toolbar',
     'captcha',
+    'crispy_forms',
+
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrderConfig',
-    'crispy_forms',
+
 
 ]
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -115,7 +119,7 @@ INTERNAL_IPS = [
 записываетет все письма в файл на сервере.
 EMAIL_FILE_PATH - указывать путь где будут храниться письма
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' - выводит сообщение
-в консоль.
+в консоль. Для реальной отправки нужно задать EMAIL_HOST_USER и EMAIL_HOST_PASSWORD
 '''
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'emails/email-messages/'

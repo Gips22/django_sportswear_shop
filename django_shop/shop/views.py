@@ -1,10 +1,10 @@
 from loguru import logger
+
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView, DetailView
-
 from .forms import RegisterUserForm, LoginUserForm, FeedbackForm, ReviewForm
 from .models import *
 from .utils import DataMixin
