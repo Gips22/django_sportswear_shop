@@ -39,7 +39,7 @@
 ![pic](./screenshots/feedback_form.png)
 ## Установка
 
-1) Установите Python 3.10 и виртуальное окружение (virtualenv), если они еще не установлены.
+1) Установите Python 3.10 и виртуальное окружение (virtualenv), если еще не установлены.
 2) Устанавливаем зависимости: ``` pip install -r requirements.txt ```
 3) Переходим в папку с проектом: ``` cd django_shop ```
 4) Далее запускаем сервер командой: ``` python manage.py runserver ```
